@@ -1057,6 +1057,51 @@ p {
     border-top: 2px solid var(--light-color);
 }
 
+/* U-Bolts page: three products in one row */
+.ub-products-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px 32px;
+    margin-top: 40px;
+    align-items: start;
+}
+
+.ub-products-row .product-section {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+}
+
+.ub-products-row .product-detail-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-top: 16px;
+}
+
+.ub-products-row .product-section h3 {
+    font-size: 20px;
+    margin-bottom: 0;
+}
+
+@media (max-width: 1024px) {
+    .ub-products-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .ub-products-row .product-section {
+        margin-top: 36px;
+        padding-top: 36px;
+        border-top: 2px solid var(--light-color);
+    }
+
+    .ub-products-row .product-section:first-child {
+        margin-top: 0;
+        padding-top: 0;
+        border-top: none;
+    }
+}
+
 .product-detail-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
