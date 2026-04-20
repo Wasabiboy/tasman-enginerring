@@ -67,7 +67,7 @@ p {
     align-items: center;
 }
 
-.header-contact span {
+.header-contact a {
     color: var(--white);
     font-size: 30px;
     font-weight: 600;
@@ -75,11 +75,22 @@ p {
     align-items: center;
     gap: 12px;
     white-space: nowrap;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.header-contact a:hover {
+    color: var(--primary-color);
+}
+
+.header-contact a:hover i {
+    color: var(--primary-color);
 }
 
 .header-contact i {
     color: var(--primary-color);
     font-size: 32px;
+    transition: var(--transition);
 }
 
 .nav-menu {
@@ -108,9 +119,12 @@ p {
 }
 
 .logo img {
-    height: 110px;
+    max-width: min(400px, 100%);
     width: auto;
+    height: auto;
+    max-height: 110px;
     display: block;
+    object-fit: contain;
 }
 
 .nav-menu {
@@ -1220,7 +1234,7 @@ p {
         gap: 15px;
     }
     
-    .header-contact span {
+    .header-contact a {
         font-size: 18px;
     }
     
@@ -1229,7 +1243,7 @@ p {
     }
 
     .logo img {
-        height: 80px;
+        max-height: 80px;
     }
 
     .hamburger {
@@ -1308,7 +1322,7 @@ p {
 
 @media (max-width: 480px) {
     .logo img {
-        height: 60px;
+        max-height: 60px;
     }
 
     .nav-menu a {
