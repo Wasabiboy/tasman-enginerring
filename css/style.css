@@ -625,17 +625,30 @@ p {
 }
 
 .service-link {
-    color: var(--primary-color);
+    color: var(--white);
+    background: var(--secondary-color);
     text-decoration: none;
     font-weight: 600;
     display: inline-flex;
     align-items: center;
     gap: 10px;
     transition: var(--transition);
+    border-radius: 8px;
+    padding: 10px 20px;
+}
+
+.service-link i {
+    color: var(--white);
 }
 
 .service-link:hover {
     gap: 15px;
+    color: var(--white);
+    background: #003a6e;
+}
+
+.service-link:hover i {
+    color: var(--white);
 }
 
 /* Projects Section */
