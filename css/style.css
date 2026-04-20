@@ -1130,6 +1130,17 @@ p {
     padding-top: 30px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     color: rgba(255, 255, 255, 0.7);
+    font-size: 15px;
+}
+
+.footer-bottom .footer-credit {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.footer-bottom .footer-credit:hover {
+    color: #9ccc65;
 }
 
 /* Responsive Design - Mobile First */
