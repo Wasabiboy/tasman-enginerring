@@ -202,7 +202,7 @@ window.addEventListener('scroll', () => {
 });
 
 // Add fade-in animation
-const fadeInElements = document.querySelectorAll('.feature-card, .service-card, .project-card, .product-card');
+const fadeInElements = document.querySelectorAll('.service-card, .project-card, .product-card');
 
 const fadeInObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
