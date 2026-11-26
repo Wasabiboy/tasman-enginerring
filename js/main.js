@@ -172,7 +172,7 @@ const observer = new IntersectionObserver((entries) => {
 }, observerOptions);
 
 // Observe stats sections
-document.querySelectorAll('.stats, .about-stats').forEach(section => {
+document.querySelectorAll('.about-stats').forEach(section => {
     observer.observe(section);
 });
 
