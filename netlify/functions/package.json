@@ -1,0 +1,9 @@
+{
+  "name": "tasman-engineering-functions",
+  "version": "1.0.0",
+  "description": "Serverless functions for Tasman Engineering website",
+  "dependencies": {
+    "nodemailer": "^6.9.0",
+    "multiparty": "^4.2.3"
+  }
+}
