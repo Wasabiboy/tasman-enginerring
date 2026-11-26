@@ -171,19 +171,141 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
-// Observe stats sections
-document.querySelectorAll('.about-stats').forEach(section => {
-    observer.observe(section);
-});
+
+// File Upload Handling
+const fileInput = document.getElementById('attachments');
+const fileList = document.getElementById('fileList');
+const fileSizeError = document.getElementById('fileSizeError');
+const MAX_TOTAL_SIZE = 10 * 1024 * 1024; // 10MB in bytes
+let selectedFiles = [];
+
+if (fileInput) {
+    fileInput.addEventListener('change', (e) => {
+        const files = Array.from(e.target.files);
+        
+        // Add new files to selection
+        files.forEach(file => {
+            if (!selectedFiles.find(f => f.name === file.name && f.size === file.size)) {
+                selectedFiles.push(file);
+            }
+        });
+        
+        // Check total size
+        const totalSize = selectedFiles.reduce((sum, file) => sum + file.size, 0);
+        
+        if (totalSize > MAX_TOTAL_SIZE) {
+            fileSizeError.textContent = `Total file size exceeds 10MB limit. Current total: ${(totalSize / 1024 / 1024).toFixed(2)}MB`;
+            fileSizeError.classList.add('show');
+        } else {
+            fileSizeError.classList.remove('show');
+        }
+        
+        updateFileList();
+    });
+}
+
+function updateFileList() {
+    if (!fileList) return;
+    
+    fileList.innerHTML = '';
+    
+    selectedFiles.forEach((file, index) => {
+        const fileItem = document.createElement('div');
+        fileItem.className = 'file-item';
+        
+        const fileName = document.createElement('span');
+        fileName.className = 'file-item-name';
+        fileName.textContent = file.name;
+        
+        const fileSize = document.createElement('span');
+        fileSize.className = 'file-item-size';
+        fileSize.textContent = `${(file.size / 1024).toFixed(1)}KB`;
+        
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'file-remove';
+        removeBtn.innerHTML = '×';
+        removeBtn.onclick = () => removeFile(index);
+        
+        fileItem.appendChild(fileName);
+        fileItem.appendChild(fileSize);
+        fileItem.appendChild(removeBtn);
+        fileList.appendChild(fileItem);
+    });
+}
+
+function removeFile(index) {
+    selectedFiles.splice(index, 1);
+    updateFileList();
+    
+    // Clear file input
+    if (fileInput) {
+        fileInput.value = '';
+    }
+    
+    // Recheck size
+    const totalSize = selectedFiles.reduce((sum, file) => sum + file.size, 0);
+    if (totalSize <= MAX_TOTAL_SIZE) {
+        fileSizeError.classList.remove('show');
+    }
+}
 
 // Form Submission
 const contactForm = document.getElementById('contactForm');
+const submitBtn = document.getElementById('submitBtn');
+const formStatus = document.getElementById('formStatus');
 
-contactForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    alert('Thank you for your enquiry! We will get back to you soon.');
-    contactForm.reset();
-});
+if (contactForm) {
+    contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        // Check file size again before submission
+        const totalSize = selectedFiles.reduce((sum, file) => sum + file.size, 0);
+        if (totalSize > MAX_TOTAL_SIZE) {
+            fileSizeError.textContent = `Total file size exceeds 10MB limit. Please remove some files.`;
+            fileSizeError.classList.add('show');
+            return;
+        }
+        
+        // Disable submit button
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending...';
+        formStatus.className = 'form-status';
+        formStatus.textContent = '';
+        
+        try {
+            const formData = new FormData(contactForm);
+            
+            // Add selected files to FormData
+            selectedFiles.forEach((file, index) => {
+                formData.append('attachments', file);
+            });
+            
+            const response = await fetch('/.netlify/functions/contact-form', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const result = await response.json();
+            
+            if (response.ok) {
+                formStatus.className = 'form-status success';
+                formStatus.textContent = result.message || 'Thank you for your enquiry! We will get back to you soon.';
+                contactForm.reset();
+                selectedFiles = [];
+                updateFileList();
+            } else {
+                throw new Error(result.error || 'Failed to send enquiry');
+            }
+        } catch (error) {
+            formStatus.className = 'form-status error';
+            formStatus.textContent = `Error: ${error.message}. Please try again or email us directly at sales@tasmaneng.co.nz`;
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Submit';
+        }
+    });
+}
 
 // Header Scroll Effect
 let lastScroll = 0;
