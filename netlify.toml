@@ -3,6 +3,16 @@
   functions = "netlify/functions"
 
 [[redirects]]
+  from = "/friction-stir-welding"
+  to = "/about-us"
+  status = 301
+
+[[redirects]]
+  from = "/friction-stir-welding.html"
+  to = "/about-us.html"
+  status = 301
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
