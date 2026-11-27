@@ -1252,16 +1252,33 @@ p {
     
     .header-contact {
         margin-bottom: 10px;
-        flex-wrap: wrap;
-        gap: 15px;
+        flex-wrap: nowrap;
+        gap: 10px;
     }
     
     .header-contact a {
-        font-size: 18px;
+        font-size: 14px;
+        gap: 6px;
     }
     
     .header-contact i {
-        font-size: 20px;
+        font-size: 16px;
+    }
+    
+    /* Extra small screens - reduce further to fit */
+    @media (max-width: 400px) {
+        .header-contact {
+            gap: 6px;
+        }
+        
+        .header-contact a {
+            font-size: 12px;
+            gap: 4px;
+        }
+        
+        .header-contact i {
+            font-size: 14px;
+        }
     }
 
     .logo img {
